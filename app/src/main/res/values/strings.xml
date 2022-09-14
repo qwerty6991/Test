@@ -7,4 +7,7 @@
     <string name="enable_errors">Enable Errors</string>
     <string name="gif">gif</string>
     <string name="initialization_edit_text">hello</string>
+    <string name="open_gif">"Open GIF"</string>
+    <string name="delete_gif">Delete GIFF</string>
+
 </resources>

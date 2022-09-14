@@ -1,19 +1,19 @@
 package com.example.test.ui.screens
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.test.R
 import com.example.test.databinding.FragmentRootBinding
+import com.example.test.domain.Gif
 import com.example.test.ui.GifsAdapter
 import com.example.test.ui.base.DefaultLoadStateAdapter
 import com.example.test.ui.base.TryAgainAction
@@ -27,6 +27,8 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalCoroutinesApi::class)
 class RootFragment : Fragment(R.layout.fragment_root) {
 
+    private lateinit var adapter: GifsAdapter
+
     private val viewModel by viewModels<RootViewModel>()
 
     private lateinit var binding: FragmentRootBinding
@@ -36,6 +38,17 @@ class RootFragment : Fragment(R.layout.fragment_root) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRootBinding.bind(view)
 
+        adapter = GifsAdapter(object : GifsAdapter.GifActionListener {
+            override fun onOpenGifFragment(gif: Gif) {
+                findNavController().navigate(R.id.action_rootFragment_to_gifFragment)
+            }
+
+            override fun onGifDelete(gif: Gif) {
+                // TODO()
+            }
+
+        })
+
         setupGifsList()
 
         setupSearchInput()
@@ -43,7 +56,6 @@ class RootFragment : Fragment(R.layout.fragment_root) {
 
     private fun setupGifsList() {
 
-        val adapter = GifsAdapter()
 
         val tryAgainAction: TryAgainAction = { adapter.retry() }
 
@@ -86,10 +98,7 @@ class RootFragment : Fragment(R.layout.fragment_root) {
 
     private fun observeGifs(adapter: GifsAdapter) {
         lifecycleScope.launch {
-            val flow = viewModel.gifsFlow
-
-            Log.i("My_APP", "onBindViewHolder: $flow")
-            viewModel.gifsFlow.collectLatest { pagingData ->
+            viewModel.gifsBySearchFlow.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
             }
         }

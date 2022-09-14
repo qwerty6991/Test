@@ -1,15 +1,20 @@
 package com.example.test.data
 
+import android.util.Log
 import androidx.paging.*
+import com.example.test.data.retrofit.GifsApi
 import com.example.test.data.room.RoomService
 import com.example.test.domain.Gif
+import javax.inject.Inject
+import javax.inject.Singleton
 
 typealias GifsPageLoader = suspend (pageIndex: Int, pageSize: Int) -> List<Gif>
 
 @ExperimentalPagingApi
-class GifsPagingSource constructor(
+@Singleton
+class GifsPagingSource @Inject constructor(
     private val loader: GifsPageLoader,
-    private val roomService: RoomService
+    private val roomService: RoomService,
 ) : PagingSource<Int, Gif>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Gif> {
@@ -17,6 +22,8 @@ class GifsPagingSource constructor(
 
         return try {
             val gifs = loader.invoke(pageIndex, params.loadSize)
+            Log.i("My_APP", "list GIfs: $gifs")
+
             roomService.saveGifs(gifs)
 
             return LoadResult.Page(
