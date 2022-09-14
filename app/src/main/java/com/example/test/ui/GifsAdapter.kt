@@ -2,20 +2,15 @@ package com.example.test.ui
 
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.annotation.ColorRes
-import androidx.annotation.DrawableRes
-import androidx.core.content.ContextCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.test.R
 import com.example.test.databinding.ItemGifBinding
-import com.example.test.domain.Gif
 
 class GifsAdapter(
 ) : PagingDataAdapter<GifUiEntity, GifsAdapter.Holder>(
@@ -32,10 +27,9 @@ class GifsAdapter(
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val gif = getItem(position) ?: return
 
-        Log.i("My_APP", "onBindViewHolder: $gif")
         with(holder.binding) {
             gifImageView.tag = gif
-            setImage(gifImageView, gif)
+            gif.imageUrl?.let { loadImageGif(gifImageView, it) }
         }
     }
 
@@ -47,24 +41,12 @@ class GifsAdapter(
         return Holder(binding)
     }
 
-    private fun setStatus(
-        imageView: ImageView,
-        @DrawableRes drawable: Int,
-        @ColorRes colorRes: Int
-    ) {
-        val context = imageView.context
-        imageView.setImageResource(drawable)
-        imageView.imageTintList = ColorStateList
-            .valueOf(ContextCompat.getColor(context, colorRes))
-    }
 
-    private fun setImage(imageView: ImageView, gif: Gif) {
+    private fun loadImageGif(imageView: ImageView, url: String) {
         val context = imageView.context
-        if (gif.imageUrl.isNotBlank()) {
-
-            imageView.imageTintList = null
+        if (url.isNotBlank()) {
             Glide.with(context)
-                .load(gif.imageUrl)
+                .load(url)
                 .placeholder(R.drawable.ic_baseline_image)
                 .error(R.drawable.ic_baseline_broken_image)
                 .centerInside()

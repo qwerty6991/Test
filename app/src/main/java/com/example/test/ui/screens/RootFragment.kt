@@ -27,7 +27,6 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalCoroutinesApi::class)
 class RootFragment : Fragment(R.layout.fragment_root) {
 
-
     private val viewModel by viewModels<RootViewModel>()
 
     private lateinit var binding: FragmentRootBinding

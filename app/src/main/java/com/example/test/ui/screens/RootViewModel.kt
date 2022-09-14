@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
+import com.example.test.data.room.RoomGifsRepository
 import com.example.test.domain.Gif
 import com.example.test.domain.GifsRepository
 import com.example.test.ui.GifUiEntity
@@ -25,7 +26,8 @@ import javax.inject.Inject
 @HiltViewModel
 class RootViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val gifsRepository: GifsRepository
+    private val gifsRepository: GifsRepository,
+    private val roomGifsRepository: RoomGifsRepository
 ) : ViewModel() {
 
     val gifsFlow: Flow<PagingData<GifUiEntity>>
@@ -56,7 +58,6 @@ class RootViewModel @Inject constructor(
         }
 
     init {
-
         val originGifsFlow = searchLiveData.asFlow()
             // if user types text too quickly -> filtering intermediate values to avoid excess loads
             .debounce(500)

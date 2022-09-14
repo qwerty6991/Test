@@ -9,12 +9,10 @@ import com.example.test.domain.Gif
 data class GifUiEntity(
     val gif: Gif,
     val inProgress: Boolean
-) : Gif {
+) {
 
-    override val id: String
-        get() = gif.id
+    val id: String get() = gif.id
+    val imageUrl: String? get() = gif.imageUrl
 
-    override val imageUrl: String
-        get() = gif.imageUrl
 }
 

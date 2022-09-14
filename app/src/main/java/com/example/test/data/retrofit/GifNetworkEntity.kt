@@ -3,18 +3,20 @@ package com.example.test.data.retrofit
 import com.example.test.domain.Gif
 
 data class GifNetworkEntity(
-    override val id: String,
-    val images: Image?
-) : Gif {
+    val id: String,
+    val images: Image? = Image()
+) {
 
-    override val imageUrl: String get() = images?.original?.url ?: ""
+    data class Image(
+        val original: Original? = Original()
+    )
 
+    data class Original(
+        var url: String? = null
+    )
+
+    fun toGif(): Gif = Gif(
+        id = id,
+        imageUrl = images?.original?.url
+    )
 }
-
-data class Image(
-    val original: Original?
-)
-
-data class Original(
-    var url: String? = null
-)
