@@ -18,7 +18,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideLaunchesApi(retrofit: Retrofit): GifsApi {
+    fun provideGifsApi(retrofit: Retrofit): GifsApi {
         return retrofit.create(GifsApi::class.java)
     }
 

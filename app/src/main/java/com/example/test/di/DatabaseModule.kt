@@ -29,11 +29,11 @@ class DatabaseModule {
     }
 
     @Provides
-    fun provideLaunchesDao(database: AppDatabase): GifsDao {
-        return database.getLaunchesDao()
+    fun provideGifsDao(database: AppDatabase): GifsDao {
+        return database.getGifsDao()
     }
 
     private companion object {
-        const val DB_NAME = "launches.db"
+        const val DB_NAME = "gifs.db"
     }
 }

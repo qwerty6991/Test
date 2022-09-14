@@ -3,8 +3,8 @@ package com.example.test.domain
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 
-interface GifRepository {
+interface GifsRepository {
 
-    fun getGifs(searchBy: String): Flow<PagingData<Gif>>
+    fun getGifs(search: String? = null): Flow<PagingData<Gif>>
 
 }

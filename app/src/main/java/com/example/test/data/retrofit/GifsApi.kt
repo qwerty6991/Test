@@ -8,7 +8,7 @@ interface GifsApi {
     @GET("search")
     suspend fun getGifs(
         @Query("api_key") key: String,
-        @Query("q") searchBy: String,
+        @Query("q") searchBy: String?,
         @Query("limit") limit: Int,
         @Query("offset") offset: Int,
         @Query("rating") rating: String,

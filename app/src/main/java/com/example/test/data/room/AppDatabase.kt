@@ -11,6 +11,6 @@ import androidx.room.RoomDatabase
 )
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun getLaunchesDao(): GifsDao
+    abstract fun getGifsDao(): GifsDao
 
 }
