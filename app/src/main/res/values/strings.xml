@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Test</string>
+
+    <string name="search_giphy">Search GIPHY</string>
+    <string name="load_error">Oops, can\'t load data</string>
+    <string name="try_again">Try Again</string>
+    <string name="enable_errors">Enable Errors</string>
+    <string name="gif">gif</string>
+    <string name="initialization_edit_text">hello</string>
 </resources>
