@@ -47,6 +47,6 @@ class NetworkModule {
     }
 
     private companion object {
-        const val BASE_URL = "https://api.spacexdata.com/v5/"
+        const val BASE_URL = "https://api.giphy.com/v1/gifs/"
     }
 }

@@ -6,11 +6,7 @@ import androidx.room.*
 @Dao
 interface GifsDao {
 
-    /**
-     * Note that orderBy and ASC/DESC order should be the same as
-     * in the network request.
-     */
-    @Query("SELECT * FROM gifs WHERE :search IS NULL")
+    @Query("SELECT * FROM gifs WHERE :search")
     fun getPagingSource(
         search: String?
     ): PagingSource<Int, GifRoomEntity>
