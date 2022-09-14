@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RootViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val gifsRepository: GifsRepository,
+    private val gifsRepository: GifsRepository
 ) : ViewModel() {
 
     val gifsBySearchFlow: Flow<PagingData<Gif>>

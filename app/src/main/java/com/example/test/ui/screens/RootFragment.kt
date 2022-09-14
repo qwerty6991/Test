@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,7 +41,10 @@ class RootFragment : Fragment(R.layout.fragment_root) {
 
         adapter = GifsAdapter(object : GifsAdapter.GifActionListener {
             override fun onOpenGifFragment(gif: Gif) {
-                findNavController().navigate(R.id.action_rootFragment_to_gifFragment)
+                val direction =
+                    RootFragmentDirections.actionRootFragmentToGifFragment(viewModel.search)
+
+                findNavController().navigate(direction)
             }
 
             override fun onGifDelete(gif: Gif) {

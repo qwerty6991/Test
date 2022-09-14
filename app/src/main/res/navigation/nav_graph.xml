@@ -17,5 +17,10 @@
         android:id="@+id/gifFragment"
         android:name="com.example.test.ui.screens.GifFragment"
         android:label="fragment_gif"
-        tools:layout="@layout/fragment_gif" />
+        tools:layout="@layout/fragment_gif" >
+        <argument
+            android:name="searchName"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 </navigation>

@@ -2,7 +2,6 @@ package com.example.test.data
 
 import android.util.Log
 import androidx.paging.*
-import com.example.test.data.retrofit.GifsApi
 import com.example.test.data.room.RoomService
 import com.example.test.domain.Gif
 import javax.inject.Inject
