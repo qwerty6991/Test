@@ -5,33 +5,31 @@ import android.view.View
 import androidx.core.view.isInvisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navOptions
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.test.R
 import com.example.test.databinding.FragmentRootBinding
 import com.example.test.domain.Gif
-import com.example.test.ui.GifsAdapter
+import com.example.test.ui.adapter.GifsAdapter
 import com.example.test.ui.base.DefaultLoadStateAdapter
 import com.example.test.ui.base.TryAgainAction
 import com.example.test.ui.base.simpleScan
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-@OptIn(ExperimentalCoroutinesApi::class)
-class RootFragment : Fragment(R.layout.fragment_root) {
+@OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
+class RootFragment : Fragment(R.layout.fragment_root), GifsAdapter.GifActionListener {
 
+    private lateinit var viewModel: SharedViewModel
     private lateinit var adapter: GifsAdapter
-
-    private val viewModel by viewModels<RootViewModel>()
-
     private lateinit var binding: FragmentRootBinding
     private lateinit var mainLoadStateHolder: DefaultLoadStateAdapter.Holder
 
@@ -39,19 +37,9 @@ class RootFragment : Fragment(R.layout.fragment_root) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRootBinding.bind(view)
 
-        adapter = GifsAdapter(object : GifsAdapter.GifActionListener {
-            override fun onOpenGifFragment(gif: Gif) {
-                val direction =
-                    RootFragmentDirections.actionRootFragmentToGifFragment(viewModel.search)
+        viewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
 
-                findNavController().navigate(direction)
-            }
-
-            override fun onGifDelete(gif: Gif) {
-                // TODO()
-            }
-
-        })
+        adapter = GifsAdapter()
 
         setupGifsList()
 
@@ -60,6 +48,7 @@ class RootFragment : Fragment(R.layout.fragment_root) {
 
     private fun setupGifsList() {
 
+        adapter.gifActionListener = this
 
         val tryAgainAction: TryAgainAction = { adapter.retry() }
 
@@ -150,5 +139,16 @@ class RootFragment : Fragment(R.layout.fragment_root) {
     private fun getRefreshLoadStateFlow(adapter: GifsAdapter): Flow<LoadState> {
         return adapter.loadStateFlow
             .map { it.refresh }
+    }
+
+    override fun onOpenGifFragment(gif: Gif) {
+        val direction =
+            RootFragmentDirections.actionRootFragmentToGifFragment(viewModel.search)
+
+        findNavController().navigate(direction)
+    }
+
+    override fun onGifDelete(gif: Gif) {
+        TODO("Not yet implemented")
     }
 }

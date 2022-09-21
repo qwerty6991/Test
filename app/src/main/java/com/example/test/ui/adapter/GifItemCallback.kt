@@ -1,4 +1,4 @@
-package com.example.test.ui
+package com.example.test.ui.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.test.domain.Gif

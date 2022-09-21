@@ -7,20 +7,21 @@ import com.example.test.domain.Gif
 import com.example.test.domain.GifsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
+@OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
 @HiltViewModel
-class RootViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
+class SharedViewModel @Inject constructor(
     private val gifsRepository: GifsRepository
 ) : ViewModel() {
 
     val gifsBySearchFlow: Flow<PagingData<Gif>>
 
-    private val searchLiveData =
-        savedStateHandle.getLiveData(KEY_YEAR, "")
+    private val searchLiveData = MutableLiveData("")
     var search: String?
         get() = searchLiveData.value
         set(value) {
@@ -34,9 +35,5 @@ class RootViewModel @Inject constructor(
                 gifsRepository.getGifs(it)
             }
             .cachedIn(viewModelScope)
-    }
-
-    private companion object {
-        const val KEY_YEAR = "KEY_SEARCH"
     }
 }

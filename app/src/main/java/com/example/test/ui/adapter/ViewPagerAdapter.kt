@@ -1,4 +1,4 @@
-package com.example.test.ui
+package com.example.test.ui.adapter
 
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -16,7 +16,6 @@ class ViewPagerAdapter(
 ) : PagingDataAdapter<Gif, ViewPagerAdapter.Holder>(
     diffCallback = GifItemCallback()
 ) {
-
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val gif = getItem(position) ?: return
