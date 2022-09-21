@@ -19,8 +19,7 @@
         android:label="fragment_gif"
         tools:layout="@layout/fragment_gif" >
         <argument
-            android:name="searchName"
-            app:argType="string"
-            app:nullable="true" />
+            android:name="position"
+            app:argType="integer" />
     </fragment>
 </navigation>

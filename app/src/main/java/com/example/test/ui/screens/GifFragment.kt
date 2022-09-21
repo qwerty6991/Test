@@ -30,6 +30,10 @@ class GifFragment : Fragment(R.layout.fragment_gif) {
         val adapter = ViewPagerAdapter()
         binding.idViewPager.adapter = adapter
 
+        val position = GifFragmentArgs.fromBundle(requireArguments()).position
+
+        adapter.startPosition = position
+
         lifecycleScope.launch {
             viewModel.gifsBySearchFlow.collectLatest { pagingData ->
                 adapter.submitData(pagingData)

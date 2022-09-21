@@ -17,6 +17,8 @@ class ViewPagerAdapter(
     diffCallback = GifItemCallback()
 ) {
 
+    var startPosition: Int = 0
+
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val gif = getItem(position) ?: return
         with(holder.binding) {

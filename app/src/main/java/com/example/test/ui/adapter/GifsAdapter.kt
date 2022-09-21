@@ -57,7 +57,7 @@ class GifsAdapter() : PagingDataAdapter<Gif, GifsAdapter.Holder>(
                 gifImageView.tag = gif
                 gif.imageUrl?.let { loadImageGif(gifImageView, it) }
                 gifImageView.setOnLongClickListener {
-                    showPopupMenu(gifImageView)
+                    showPopupMenu(gifImageView, bindingAdapterPosition)
                     return@setOnLongClickListener true
                 }
             }
@@ -65,7 +65,7 @@ class GifsAdapter() : PagingDataAdapter<Gif, GifsAdapter.Holder>(
 
     }
 
-    private fun showPopupMenu(view: View) {
+    private fun showPopupMenu(view: View, position: Int) {
         val popupMenu = PopupMenu(view.context, view)
         val context = view.context
         val gif = view.tag as Gif
@@ -73,10 +73,11 @@ class GifsAdapter() : PagingDataAdapter<Gif, GifsAdapter.Holder>(
         popupMenu.menu.add(0, ID_OPEN, Menu.NONE, context.getString(R.string.open_gif))
         popupMenu.menu.add(0, ID_DELETE, Menu.NONE, context.getString(R.string.delete_gif))
 
+
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
                 ID_OPEN -> {
-                    gifActionListener?.onOpenGifFragment(gif)
+                    gifActionListener?.onOpenGifFragment(position)
                 }
                 ID_DELETE -> {
                     gifActionListener?.onGifDelete(gif)
@@ -84,7 +85,6 @@ class GifsAdapter() : PagingDataAdapter<Gif, GifsAdapter.Holder>(
 
             }
             return@setOnMenuItemClickListener true
-
         }
 
         popupMenu.show()
@@ -98,7 +98,7 @@ class GifsAdapter() : PagingDataAdapter<Gif, GifsAdapter.Holder>(
 
     interface GifActionListener {
 
-        fun onOpenGifFragment(gif: Gif)
+        fun onOpenGifFragment(position: Int)
 
         fun onGifDelete(gif: Gif)
     }

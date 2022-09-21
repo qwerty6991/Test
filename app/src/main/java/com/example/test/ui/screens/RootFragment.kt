@@ -141,10 +141,9 @@ class RootFragment : Fragment(R.layout.fragment_root), GifsAdapter.GifActionList
             .map { it.refresh }
     }
 
-    override fun onOpenGifFragment(gif: Gif) {
+    override fun onOpenGifFragment(position: Int) {
         val direction =
-            RootFragmentDirections.actionRootFragmentToGifFragment(viewModel.search)
-
+            RootFragmentDirections.actionRootFragmentToGifFragment(position)
         findNavController().navigate(direction)
     }
 
